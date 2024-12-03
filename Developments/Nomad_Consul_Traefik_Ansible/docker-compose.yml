@@ -1,0 +1,14 @@
+services:
+  vm1:
+    container_name: vm1
+    image: ubnt.ssh
+    networks:
+      cnet:
+        ipv4_address: 172.66.0.11
+networks:
+    cnet:
+      ipam:
+        config:
+            - subnet: 172.66.0.0/16
+
+  

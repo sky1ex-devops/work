@@ -1,0 +1,62 @@
+
+# Включаем Дашбоард
+api:
+  insecure: true
+  dashboard: true
+  debug: true
+  disableDashboardAd: true 
+
+# Указываем порты которые смотрят в мир
+entryPoints:
+  web:
+    address: :80
+    # http:
+    #   redirections: # перенаправляем http to https
+    #     entryPoint:
+    #       to: websecure
+    #       scheme: https
+
+  websecure:
+    address: :443
+    # tls:
+    #   stores:
+    #     default:
+    #       defaultCertificate:
+    #         certFile: "/traefik/certs/test.local.crt"
+    #         keyFile: "/traefik/certs/test.local.key"
+
+  # webs:
+  #   address: :9999
+
+# добовляем провайдера
+providers:
+  consulCatalog:
+    #defaultRule: "Host(`{{ .Name }}.localhost`)" 
+    exposedByDefault: true   
+    refreshInterval: 2s
+    endpoint:
+      address: "127.0.0.1:8500"
+      scheme: http
+
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: "/etc/traefik/ssl/cert.crt"
+        keyFile: "/etc/traefik/ssl/private.key"
+    # tls:
+    #   certificates:
+    #     - certFile: /etc/traefik/certs/test.local.crt"
+    #       keyFile: /etc/traefik/certs/test.local.key"
+
+
+  
+
+
+#  docker:
+#    endpoint: "unix:///var/run/docker.sock"
+#    exposedByDefault: false
+# file:
+#   directory: /custom
+#   watch: true
+

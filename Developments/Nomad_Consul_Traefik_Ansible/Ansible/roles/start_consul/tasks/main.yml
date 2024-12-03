@@ -1,0 +1,8 @@
+---
+- name: build container image
+  docker_image:
+    name: consulimg:1.20.1
+    build:
+      path: /rules/file/Dockerfile
+      source: build
+    state: present

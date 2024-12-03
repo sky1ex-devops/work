@@ -1,0 +1,35 @@
+
+# Включаем Дашбоард
+api:
+  insecure: true
+  dashboard: true
+  debug: true
+  disableDashboardAd: true 
+
+# Указываем порты которые смотрят в мир
+entryPoints:
+  web:
+    address: :80
+
+
+  websecure:
+    address: :443
+
+# добовляем провайдера
+providers:
+  consulCatalog:
+    #defaultRule: "Host(`{{ .Name }}.localhost`)" 
+    exposedByDefault: true   
+    refreshInterval: 2s
+    endpoint:
+      address: "127.0.0.1:8500"
+      scheme: http
+
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: "/etc/traefik/ssl/cert.crt"
+        keyFile: "/etc/traefik/ssl/private.key"
+
+

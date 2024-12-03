@@ -1,0 +1,7 @@
+---
+- name: Build img consul
+  hosts: localhost
+  remote_user: lex
+  become: yes
+  roles: start_consul
+    

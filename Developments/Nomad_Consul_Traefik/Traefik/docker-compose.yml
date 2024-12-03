@@ -1,0 +1,52 @@
+services:
+
+  traefik:
+    # The official v3 Traefik docker image
+    image: traefik:v3.0
+    # Enables the web UI and tells Traefik to listen to docker
+    # command: 
+    #   - "--configFile=/data/traefik.yml"
+    #   #- "--providers.consul"
+    #   #- "--providers.docker"
+    #   #- "--providers.nomad"
+    network_mode: host 
+    # ports:
+    #   # The HTTP port
+    #   - "80:80"
+    #   # The Web UI (enabled by --api.insecure=true)
+    #   - "443:443"
+    #   - "8080:8080"
+    
+    volumes:
+     - "./config/config.yml:/etc/traefik/config.yml:ro"
+     - "./data/traefik.yml:/etc/traefik/traefik.yml:ro"
+     - "./test.local.rnds/:/etc/traefik/ssl/"
+    #  - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    labels:
+      - "traefik.enable=true"
+    #  - "traefik.http.services.test-service-nomad.entrypoints=web"
+    #  - "traefik.http.services.test-service-nomad.rule=(Host(`localhost`) && PathPrefix(`/echo`)"
+    #  - "traefik.http.services.nextcloud.loadbalancer.passhostheader=true"
+      #- "traefik.http.routers.test-service-nomad.rule=Host(`service.test`) && (PathPrefix(`/traefik`) || Headers(`Referer`, `https://service.test:443/traefik/dashboard/`))" # Запросы с хостом service.test будут перенаправляться в Traefik, обеспечивая доступ к панели управления Traefik и API.
+     # - "traefik.http.routers.traefik.entrypoints=https"
+     # - "traefik.http.routers.traefik.tls=true"
+     # - "traefik.http.routers.traefik.tls.certresolver=letsEncrypt"
+     # - "traefik.http.routers.traefik.service=api@internal"
+     # - "traefik.http.routers.traefik.rule=(`traefik.dashboard.localhost`)"
+     # - "traefik.http.services.traefik-traefik.loadbalancer.server.port=888"
+      #- "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$apr1$$vDSqkf.v$$GTJOtsd9CBiAFFnHTI2Ds1"
+      #- "traefik.http.routers.traefik.middlewares=traefik-auth"
+      #- "traefik.http.services.traefik-traefik.loadbalancer.server.port=${TRAEFIK-PORT}"
+
+# traefik.enable=true — указываем что Traefik должен обеспечить доступ к этому контейнеру, необходимо для всего остального;
+# traefik.http.routers.traefik.entrypoints=https — создаем новый роутер с точной входа https;
+# traefik.http.routers.traefik.rule=Host(traefik.example.com) — роутер будет жить по адресу traefik.example.com;
+# traefik.http.routers.traefik.tls=true — указываем что используется TLS;
+# traefik.http.routers.traefik.tls.certresolver=letsEncrypt — указываем через какой резолвер получать сертификат;
+# traefik.http.routers.traefik.service=api@internal — указываем, что сервер за этим роутером — api@internal, это специальный сервис, созданный по умолчанию, это как раз и есть дашбоард который мы хотели увидеть;
+# traefik.http.services.traefik-traefik.loadbalancer.server.port=888 — издержки интерфейса, без этого не заработает, но можно написать абсолютно любую цифру.
+# traefik.http.middlewares.traefik-auth.basicauth.users=... — создаем middleware типа basicauth с параметром users;
+# traefik.http.routers.traefik.middlewares=traefik-auth — указываем что роутер traefik использует только что-то созданный middleware.
+
+

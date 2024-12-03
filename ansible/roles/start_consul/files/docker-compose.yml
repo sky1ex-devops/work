@@ -1,0 +1,24 @@
+services:
+  consul:
+    container_name: consul1.test.rnds
+    image: consul_img:1.20.1
+    network_mode: host 
+    command: ["consul", "agent",
+      "-ui",
+      "-server",
+      "-node", "agent01",
+      "-auto-reload-config",
+      "-config-dir", "/etc/consul.d/",
+      "-data-dir", "/consul/data",
+      "-advertise", "192.168.88.126",
+      "-bootstrap-expect", "1",
+      "-bind", "0.0.0.0",
+      "-client", "127.0.0.1",
+      "-server-port", "8300",
+      "-dns-port", "8053",
+      "-http-port", "8500",
+      "-serf-lan-port", "8301",
+      "-serf-wan-port", "8302",
+      "-log-level", "info"
+    ]
+    

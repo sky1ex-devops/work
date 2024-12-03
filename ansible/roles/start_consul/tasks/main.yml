@@ -1,0 +1,38 @@
+---
+## Собираем образ из ~/ansible/roles/start_consul/files/Dockerfile ##
+- name: build image consul_img:v1.20.1
+  docker_image:
+    build:
+      path: /home/lex/ansible/roles/start_consul/files
+    name: consul_img
+    tag: v1.20.1
+    source: build
+    state: present
+
+## deploy контейнер  ##
+- name: deploy docker container consul1.test.rnds
+  docker_container:
+    name: consul1.test.rnds
+    image: consul_img:v1.20.1
+    state: started
+    auto_remove: true
+    network_mode: host 
+    command: ["consul", "agent",
+      "-ui",
+      "-server",
+      "-node", "agent01",
+      "-auto-reload-config",
+      "-config-dir", "/etc/consul.d/",
+      "-data-dir", "/consul/data",
+      "-advertise", "{{  ansible_enp7s0.ipv4.address }}",
+      "-bootstrap-expect", "1",
+      "-bind", "0.0.0.0",
+      "-client", "127.0.0.1",
+      "-server-port", "8300",
+      "-dns-port", "8053",
+      "-http-port", "8500",
+      "-serf-lan-port", "8301",
+      "-serf-wan-port", "8302",
+      "-log-level", "info"
+    ]
+    

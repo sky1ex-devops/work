@@ -1,0 +1,12 @@
+---
+# deploy контейнера  ##
+- name: deploy docker container traefik1.test.rnds
+  docker_container:
+    name: traefik1.test.rnds
+    image: traefik:v3.0
+    state: started
+    auto_remove: true
+    network_mode: host 
+    volumes:
+    - "/home/lex/ansible/roles/start_traefik/files/data/traefik.yml:/etc/traefik/traefik.yml:ro"
+    - "/home/lex/ansible/roles/start_traefik/files/data/test.local.rnds/:/etc/traefik/ssl/"

@@ -1,0 +1,16 @@
+- hosts: localhost
+  become: true
+  tasks:
+    - name: pull the nginx docker image
+      docker_image:
+        name: nginx
+        source: pull
+
+    - name: deploy nginx docker container
+      docker_container:
+        name: ansiblenginx
+        image: nginx
+        state: started
+        auto_remove: true
+        ports:
+          - "9090:9090"
