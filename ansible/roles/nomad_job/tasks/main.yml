@@ -1,0 +1,17 @@
+---
+
+- name: Change file
+  ansible.builtin.file:
+#    path: /home/lex/DEVOPS/WORKS/ansible/roles/nomad_job/files/
+    path: ../roles/nomad_job/files/
+    state: directory
+    mode: '0755'
+
+- name: Create job
+  community.general.nomad_job:
+    host: 192.168.88.126
+    state: present
+    use_ssl: false
+    content: "{{ lookup('ansible.builtin.file', 'job_echo_test.hcl') }}"
+    # content: "/home/lex/DEVOPS/WORKS/ansible/roles/nomad_job/files/job_echo_test.hcl"
+    timeout: 120

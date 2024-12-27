@@ -8,5 +8,5 @@
     auto_remove: true
     network_mode: host 
     volumes:
-    - "/home/lex/ansible/roles/start_traefik/files/data/traefik.yml:/etc/traefik/traefik.yml:ro"
-    - "/home/lex/ansible/roles/start_traefik/files/data/test.local.rnds/:/etc/traefik/ssl/"
+    - "/home/lex/DEVOPS/WORKS/ansible/roles/start_traefik/files/data/traefik.yml:/etc/traefik/traefik.yml:ro"
+    - "/home/lex/DEVOPS/WORKS/ansible/roles/start_traefik/files/data/test.local.rnds/:/etc/traefik/ssl/"

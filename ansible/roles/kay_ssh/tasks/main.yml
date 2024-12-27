@@ -17,3 +17,4 @@
     user: john_doe
     state: present
     key: "{{ lookup('file', '/home/ john_doe/.ssh/id_rsa.pub') }}"
+    

@@ -1,0 +1,5 @@
+---
+
+- name: copy ssh key 
+  ansible.builtin.shell: ssh-copy-id root@vm1
+   

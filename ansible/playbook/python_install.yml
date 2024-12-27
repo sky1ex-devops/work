@@ -1,9 +1,0 @@
----
-- name: Install python in target node with ansible
-  hosts: vm1
-  become: yes
-  gather_facts: no
-  pre_tasks:
-  - name: install python
-    remote_user: root
-    ansible.builtin.raw: apt install python3

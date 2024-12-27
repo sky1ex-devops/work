@@ -15,3 +15,5 @@ RUN mkdir /etc/consul.d/
 EXPOSE 22
 
 CMD ["/usr/sbin/sshd", "-D"]
+
+

@@ -43,4 +43,4 @@ def edit():
 
 
 if __name__ == "__main__":
-    app.run(debug=True) # Выполнять программу в режиме debug mode
+    app.run(debug=True, port=8550) # Выполнять программу в режиме debug mode

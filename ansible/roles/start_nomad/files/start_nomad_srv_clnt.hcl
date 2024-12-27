@@ -1,6 +1,6 @@
 log_level = "ERROR"
 
-data_dir = "/home/lex/DEVOPS/developments/Nomad/task"
+data_dir = "/home/lex/DEVOPS/nomad_data_dir"
 
 server {
   enabled = true
@@ -9,7 +9,7 @@ server {
 }
 
 consul {
-  address = "127.0.0.1:8500"
+  address = "{{  ansible_enp7s0.ipv4.address }}:8500"
   auto_advertise      = true
   server_auto_join    = true
   client_auto_join    = true

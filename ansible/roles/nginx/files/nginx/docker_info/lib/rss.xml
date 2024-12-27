@@ -1,0 +1,87 @@
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Brain]]></title><description><![CDATA[Obsidian digital garden]]></description><link>http://github.com/dylang/node-rss</link><image><url>lib/media/favicon.png</url><title>Brain</title><link/></image><generator>Webpage HTML Export plugin for Obsidian</generator><lastBuildDate>Wed, 18 Dec 2024 10:14:48 GMT</lastBuildDate><atom:link href="lib/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 18 Dec 2024 10:14:47 GMT</pubDate><ttl>60</ttl><dc:creator/><item><title><![CDATA[Docker фильтры]]></title><description><![CDATA[ 
+ <br><br><br>Docker ps&nbsp;— команда для&nbsp;вывода списка запущенных контейнеров&nbsp;в Docker<br><br><br><br><img alt="Pasted image 20241210095323.png" src="lib/media/pasted-image-20241210095323.png" style="width: 700px; max-width: 100%;"><br><br><br><br>Покажи запущенные контейнеры<br><img alt="Pasted image 20241209160948.png" src="lib/media/pasted-image-20241209160948.png"><br><br><br>Смотрим все контейнеры (любого статуса)<br><img alt="Pasted image 20241209161738.png" src="lib/media/pasted-image-20241209161738.png"><br><br><br>Можно вывести только id контейнеров<br><img alt="Pasted image 20241209162043.png" src="lib/media/pasted-image-20241209162043.png"><br><br><br>А можно добавить к выводу информацию о использовании дискового пространства.<br>Увидим 2 параметра:<br>
+<br>«Виртуальный размер» — это размер монтируемого образа контейнера(только для чтения).
+<br>«Размер контейнера» - слои контейнера записанные поверх монтируемого образа контейнера.
+<br><img alt="Pasted image 20241212110122.png" src="lib/media/pasted-image-20241212110122.png" style="width: 780px; max-width: 100%;"><br>Общее занятое пространство:<br>
+"Виртуальный размер" + "контейнер 1" + "контейнер 2"<br>
+78,1MB + 54B + 5B <br>Не учитывается: <br>
+<br>Дисковое пространство, используемое для хранения файлов журналов.
+<br>Тома и привязки, используемые контейнером.
+<br>Место для файлов конфигурации контейнера.
+<br>Память выделенная на файлы подкачки
+<br>Память выделенная под docker checkpoint(можно сохранять/восстанавливать состояния контейнеров)
+<br><br><br>Смотрим последний созданный контейнер<br><img alt="Pasted image 20241210112109.png" src="lib/media/pasted-image-20241210112109.png"><br><br><br>Если хочу посмотреть 2 последних созданных контейнера<br><img alt="Pasted image 20241210112807.png" src="lib/media/pasted-image-20241210112807.png"><br><br><br>Можно попросить не сокращать вывод ID контейнеров с помощью --no-trunc<br><img alt="Pasted image 20241210113228.png" src="lib/media/pasted-image-20241210113228.png"><br><br><br>По умолчанию в выводе видим<br>
+ID | IMAGE | COMMAND | CREATED | STATUS | PORTS | NAMES<br><img alt="Pasted image 20241210113759.png" src="lib/media/pasted-image-20241210113759.png"><br>Вывод информации о контейнерах можно настроить с помощью опции --format,<br>
+выходные данные получаем с использованием шаблонизатора Go.<br><br>Допустимые заполнители для шаблона Go:<br><br><br>Какие выходные данные docker ps можно получить с помощью --format <br>docker ps --format json 
+Копировать<br><img alt="Pasted image 20241209170018.png" src="lib/media/pasted-image-20241209170018.png"><br><br>Более приятный глазу вид поможет придать утилита jq (утилиты для обработки JSON)<br><img alt="Pasted image 20241210114917.png" src="lib/media/pasted-image-20241210114917.png"><br><br>Я хочу увидеть все имеющиеся контейнеры в формате ID+Имя+State+Status<br><img alt="Pasted image 20241209164822.png" src="lib/media/pasted-image-20241209164822.png" style="width: 1225px; max-width: 100%;"><br><br>Можем попросить вывести заголовки/ключи и добавить табуляцию, чтоб вывод был<br>
+похож на таблицу.<br><img alt="Pasted image 20241209163047.png" src="lib/media/pasted-image-20241209163047.png"><br>
+STATE - кратко показывает состояние: «создан», «работает», «завершён».<br>
+STATUS - покажет состояние контейнера и тайминг статуса.<br><br>Выведем все столбцы которые не попадают в стандартный вывод <br><img alt="Pasted image 20241211113119.png" src="lib/media/pasted-image-20241211113119.png"><br><br>столбец LocalVolumes. <br>1 - смонтирован именованный локальный том<br>
+0 - использует анонимный(не постоянный) том<br><img alt="Pasted image 20241211111555.png" src="lib/media/pasted-image-20241211111555.png"><br><br>--format также  применима к docker container ls<br><img alt="Pasted image 20241209174000.png" src="lib/media/pasted-image-20241209174000.png"><br><br>--format можно применять к docker images<br><img alt="Pasted image 20241210115230.png" src="lib/media/pasted-image-20241210115230.png"><br><br>--format можно применять к docker inspect<br>У docker inspect количество параметров которые можно запросить, слишком велико для моего колесика мышки.<br>
+<img alt="Pasted image 20241209170503.png" src="lib/media/pasted-image-20241209170503.png"><br><br>Но можно запросить нужную информацию, например IP соответствующего контейнера.<br><img alt="Pasted image 20241209171934.png" src="lib/media/pasted-image-20241209171934.png"><br>Либо и с использованием функции range шаблонизатора GO<br><img alt="Pasted image 20241212105445.png" src="lib/media/pasted-image-20241212105445.png"><br><br>Также --format можно применять к docker network ls.<br>Вот параметры которые можно запросить.<br><img alt="Pasted image 20241210094252.png" src="lib/media/pasted-image-20241210094252.png"><br>Пример: Запрашиваем ID+Имя сети+Время создания сети<br>
+<img alt="Pasted image 20241210094832.png" src="lib/media/pasted-image-20241210094832.png"><br><br><br><br><br> id / name<br> Фильтруем по id или названию контейнера<br>
+<img alt="Pasted image 20241210130558.png" src="lib/media/pasted-image-20241210130558.png"><br>Можно ввести часть id или имени<br>
+<img alt="Pasted image 20241210130830.png" src="lib/media/pasted-image-20241210130830.png"><br><br> label<br>Посмотрим контейнеры с меткой "VMashine"<br><img alt="Pasted image 20241210132348.png" src="lib/media/pasted-image-20241210132348.png"><br><br> exited<br> Фильтруем по коду состояния контейнера<br><img alt="Pasted image 20241210132753.png" src="lib/media/pasted-image-20241210132753.png"><br>Распространенные коды состояния:**<br>
+<br>Код 0. Успешное завершение процесса.&nbsp;
+<br>Код 1. Общая ошибка, обычно связанная с логикой приложения.&nbsp;
+<br>Код 137. Контейнер завершён системой, обычно из-за нехватки памяти или ручного уничтожения сигналом kill -9.&nbsp;
+<br>Код 127. Команда внутри контейнера не найдена или не выполнена.&nbsp;
+<br>Код 126. Команда существует, но не может быть выполнена, обычно из-за проблем с разрешениями или недопустимого исполняемого файла.&nbsp;
+<br>Код 255. Неизвестная или специфическая для приложения ошибка.&nbsp;
+<br>Код 129. Указывает, что контейнер получил сигнал завершения работы (SIGHUP), часто от закрытия терминала или сессии.
+<br><br> status<br> Фильтруем по status <br><img alt="Pasted image 20241210140312.png" src="lib/media/pasted-image-20241210140312.png"><br>Возможные статусы:<br><br><br>ancestor (предок)<br>Фильтр по images контейнера или его потомка.<br><img alt="Pasted image 20241210141957.png" src="lib/media/pasted-image-20241210141957.png"><br>Сопоставление на основе слоя a43e3b5b208d, имеет ли этот слой в своей структуре<br>
+<img alt="Pasted image 20241210141018.png" src="lib/media/pasted-image-20241210141018.png"><br><br>before<br>
+Фильтр&nbsp;before&nbsp;показывает только контейнеры, созданные раннее контейнера с заданным идентификатором или именем.<br>since<br>
+В&nbsp;since&nbsp;фильтре отображаются только контейнеры, созданные позднее контейнера с заданным идентификатором или именем.<br><img alt="Pasted image 20241210141514.png" src="lib/media/pasted-image-20241210141514.png"><br><br>volume<br>Фильтр&nbsp;volume&nbsp;показывает контейнеры, которые монтируют определенный том или имеют том, смонтированный по определенному пути:<br><img alt="Pasted image 20241210143035.png" src="lib/media/pasted-image-20241210143035.png"><br><br>network<br>Фильтр&nbsp;network&nbsp;показывает только контейнеры, подключенные к сети с указанным именем или идентификатором.<br><img alt="Pasted image 20241210143508.png" src="lib/media/pasted-image-20241210143508.png"><br><br>publish и expose<br>Можем фильтровать по порту контейнера или порту host-машины<br><img alt="Pasted image 20241210143817.png" src="lib/media/pasted-image-20241210143817.png"><br><br>health<br> По состоянию контейнеров.<br><img alt="Pasted image 20241210164855.png" src="lib/media/pasted-image-20241210164855.png"><br>Хотим найти unhealthy контейнеры.<br>
+Контейнер UP, но Health Checks говорят что сервису не хорошо.<br>
+<img alt="Pasted image 20241210165014.png" src="lib/media/pasted-image-20241210165014.png"><br><br>is-task<br>Показываем контейнеры которые являются или не являются заданием SWARM<br><img alt="Pasted image 20241211101710.png" src="lib/media/pasted-image-20241211101710.png"><br><br><br><br>Отображает в реальном времени используемые ресурсы контейнерами.<br><img alt="Pasted image 20241212123459.png" src="lib/media/pasted-image-20241212123459.png"><br><img alt="Pasted image 20241212151739.png" src="lib/media/pasted-image-20241212151739.png"><br>
+--no-stream - покажет снимок вывода<br>
+--no-trunc - не обрезать ID<br>
+--format<br><br><br><br><br><img alt="Pasted image 20241212161658.png" src="lib/media/pasted-image-20241212161658.png"><br><br><br>Можно посмотреть занимаемое дисковое пространство демоном Docker<br>
+командой docker system df <br><img alt="Pasted image 20241212105832.png" src="lib/media/pasted-image-20241212105832.png"><br><img alt="Pasted image 20241212161612.png" src="lib/media/pasted-image-20241212161612.png"><br><br><br><img alt="Pasted image 20241212162313.png" src="lib/media/pasted-image-20241212162313.png"><br>docker system info - вывод системной информации о docker(версия, количество контейнеров, образов...)<br><img alt="Pasted image 20241212153559.png" src="lib/media/pasted-image-20241212153559.png"><br>
+. . .<br>
+<br><br><br>Удаляем контейнеры, сети, образы созданные позднее 10 минут.<br><img alt="Pasted image 20241212113256.png" src="lib/media/pasted-image-20241212113256.png"><br>Поддерживаемые форматы временных меток: RFC3339Nano, RFC3339,&nbsp;2006-01-02T15:04:05,&nbsp;2006-01-02T15:04:05.999999999,&nbsp;2006-01-02T07:00&nbsp;и&nbsp;2006-01-02<br>Также можно отфильтровать по<br>
+lable='' - принадлежности метки<br>
+или<br>
+lable!='' - не принадлежности метки<br>
+<img alt="Pasted image 20241212114013.png" src="lib/media/pasted-image-20241212114013.png"><br><br><br><img alt="Pasted image 20241212162608.png" src="lib/media/pasted-image-20241212162608.png"><br>Cмотрим события в среде Docker в реальном времени<br><img alt="Pasted image 20241212154515.png" src="lib/media/pasted-image-20241212154515.png"><br><br><br>docker events --since '10m'
+docker events --since '2024-12-03T15:49:29'
+docker events --since '2024-12-05'
+
+Копировать<br><br>docker events --since '2024-12-12T16:35:30' --until '2024-12-12T16:36:05'
+Копировать<br>Запрашиваем журнал<br>
+с 12/12/24-16:35:30 по 12/12/24-16:36:05  <br><img alt="Pasted image 20241212164516.png" src="lib/media/pasted-image-20241212164516.png"><br><br><img alt="Pasted image 20241212165114.png" src="lib/media/pasted-image-20241212165114.png"><br>
+<br>
+container= события по конкретному контейнеру
+
+<br>
+daemon= по демонам
+
+<br>
+event= типу событий<br>
+<img alt="Pasted image 20241212171340.png" src="lib/media/pasted-image-20241212171340.png">
+
+<br>
+image= события по конкретному образу
+
+<br>
+label=  события по конкретным меткам
+
+<br>
+network= по докер сетям
+
+<br>
+node= по нодам
+
+<br>
+scope= по скоупам<br>
+local &nbsp;или swarm
+
+<br>
+type= по типу объекта<br>
+<img alt="Pasted image 20241212171320.png" src="lib/media/pasted-image-20241212171320.png">
+
+<br>
+volume= по локальным томам
+
+<br><br><img alt="Pasted image 20241212172703.png" src="lib/media/pasted-image-20241212172703.png"><br><br>]]></description><link>devops/toolbox/docker-фильтры.html</link><guid isPermaLink="false">DEVOPS/TOOLBOX/Docker фильтры.md</guid><pubDate>Wed, 18 Dec 2024 10:14:39 GMT</pubDate><enclosure url="lib/media/pasted-image-20241210095323.png" length="0" type="image/png"/><content:encoded>&lt;figure&gt;&lt;img src="lib/media/pasted-image-20241210095323.png"&gt;&lt;/figure&gt;</content:encoded></item></channel></rss>

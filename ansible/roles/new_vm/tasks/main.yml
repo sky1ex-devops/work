@@ -1,0 +1,24 @@
+--- 
+## build Dockerfile - image  ##
+- name: build image new_vm_img:from_ansible
+  docker_image:
+    build:
+      path: /home/lex/DEVOPS/WORKS/ansible/roles/new_vm/files
+    name: new_vm_img
+    tag: from_ansible
+    source: build
+    state: present
+
+## deploy контейнер  ##
+- name: deploy docker container vm1
+  docker_container:
+    name: vm1
+    image: new_vm_img:from_ansible
+    state: started
+    auto_remove: true
+    network_mode: bridge 
+
+
+      
+
+

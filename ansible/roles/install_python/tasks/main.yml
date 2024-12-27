@@ -1,26 +1,26 @@
 ---
-- name: Install python in target node with ansible
-  hosts: vm1
-  become: yes
-  gather_facts: no
-  pre_tasks:
-  - name: install python
-    remote_user: root
-    ansible.builtin.raw: apt install python3
 
-
-# ---
-# - name: Install_python3_debian
-#   block: ### Debian ###
+# - name: Install python in target node with ansible
+#   hosts: all
+#   gather_facts: no
+#   pre_tasks:
 #   - name: install python
 #     remote_user: root
-#     ansible.builtin.raw: apt update $$ install python3
-#   #become: yes  
-#   when: ansible_os_family == "Debian" or ansible_os_family == "Ubuntu" 
+#     ansible.builtin.raw: apt install python3
 
-# - name: Install_python3_centos
-#   block: ### CentOS ###
-#   - name: install python  
-#     ansible.builtin.raw: yum install -y python3
-#     #become: yes
-#   when: ansible_os_family == "CentOS" or ansible_os_family == "RedHat" 
+
+---
+- name: Install_python3_debian
+  block: ### Debian ###
+  - name: install python
+    remote_user: root
+    ansible.builtin.raw: apt update $$ install python3
+  #become: yes  
+  when: ansible_os_family == "Debian" or ansible_os_family == "Ubuntu" 
+
+- name: Install_python3_centos
+  block: ### CentOS ###
+  - name: install python  
+    ansible.builtin.raw: yum install -y python3
+    #become: yes
+  when: ansible_os_family == "CentOS" or ansible_os_family == "RedHat" 
